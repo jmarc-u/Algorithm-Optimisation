@@ -5,7 +5,7 @@
 // - Extract all Valves and put them in VALVES_FILE
 //
 // Version 1.0 - 12/12/2017
-// Author: Jean-Marc Uzé
+// Author: Jean-Marc UzÃ©
 //
 
 #include <stdio.h>
