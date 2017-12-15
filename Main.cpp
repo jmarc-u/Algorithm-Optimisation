@@ -4,34 +4,34 @@ from one given metro station to another metro station(destination).
 
 //
 // Version 1.0 - 14/12/2017
-// Author: Jean-Marc Uzé
+// Author: Jean-Marc UzÃ©
 // Status: done
 
 Data structure:
-[Vertices]				// The vertices includes all station names. If a station belongs to n lines of metro,
+[Vertices]			// The vertices includes all station names. If a station belongs to n lines of metro,
 0000 Abbesses			// then the station name has n entries in this list
 0001 Alexandre Dumas
 0002 Alma Marceau
-0003 Alésia
+0003 AlÃ©sia
 0004 Anatole France
 0005 Anvers
 0006 Argentine
-0007 Arts et Métiers		// this station is repeated twice because because it belongs to two different lines
-0008 Arts et Métiers
-0009 Assemblée Nationale
+0007 Arts et MÃ©tiers		// this station is repeated twice because because it belongs to two different lines
+0008 Arts et MÃ©tiers
+0009 AssemblÃ©e Nationale
 0010 Aubervilliers-Pantin, Quatre Chemins
-0011 Avenue Émile Zola
+0011 Avenue Ã‰mile Zola
 0012 Avron
-0013 Barbès Rochechouart
-0014 Barbès Rochechouart
+0013 BarbÃ¨s Rochechouart
+0014 BarbÃ¨s Rochechouart
 ...
-0373 Église d'Auteuil
-0374 Église de Pantin
-0375 Étienne Marcel		// There are here 375 Vertices (stations)
+0373 Ã‰glise d'Auteuil
+0374 Ã‰glise de Pantin
+0375 Ã‰tienne Marcel		// There are here 375 Vertices (stations)
 [Edges] All edges are direct connections between two stations: <FromStation> <ToStation> <Time>
 0 238 41
 0 159 46
-1 12 36			// It takes 36s from station Abbesses to station Avron
+1 12 36				// It takes 36s from station Abbesses to station Avron
 1 235 44
 2 110 69
 2 139 50
@@ -46,7 +46,7 @@ Data structure:
 13 151 57
 13 5 67
 ...
-7 8 120.0		// It takes 120s (by foot) to change from one line to another in station Arts et Métiers
+7 8 120.0		// It takes 120s (by foot) to change from one line to another in station Arts et MÃ©tiers
 8 7 120.0
 13 14 120.0
 14 13 120.0
@@ -68,7 +68,7 @@ Dev Strategy:
 - Create an array of linked-lists storing these pairs (Note a tutorial on https://www.codeproject.com/articles/24684/how-to-create-linked-list-using-c-c)
 - Note: we will use two weights: the <distance> and the <time>
 Example 1: the object corresponding to Avron(12)-Abesses(1) will store 1 as adjacent vertex, 1 as distance and 36 as time
-Example 2: the object corresponding to Arts et Métiers(7)-Arts et Métiers(8) will store 8 as adjacent vertex, 0 as distance and 120 as time for train line change
+Example 2: the object corresponding to Arts et MÃ©tiers(7)-Arts et MÃ©tiers(8) will store 8 as adjacent vertex, 0 as distance and 120 as time for train line change
 - Read the data file and store the data as following:
 1- First (ask for name and) read until we find [Vertices] and populate all names of station in the in the stations array, until we find [Edges]
 2- Then create one object Pair per line and store the adjacency and the two attributes distance and time until we get an empty line or end of file
@@ -106,10 +106,10 @@ class Pair
 {
 private:
 	int m_edge_distance;		// Distance to next station, DISTANCE_NEXT_STATION if station to station,
-								// and DISTANCE_SAME_STATION if changing train line
-	int m_edge_time;			// Time to next station or time needed to change train line
+					// and DISTANCE_SAME_STATION if changing train line
+	int m_edge_time;		// Time to next station or time needed to change train line
 	int m_adjacent_vertex;		// Next station index. Pair are direction sensitive, i.e. two objects to manage both directions
-	Pair * m_next;				// next Pair object in the list
+	Pair * m_next;			// next Pair object in the list
 
 public:
 	Pair(bool changeline, int edge_time, int adjacent_vertex);
@@ -167,11 +167,11 @@ private:
 
 public:
 	StationList();		
-	void SetArraySize(int size);				// set the size of the array m_name
+	void SetArraySize(int size);			// set the size of the array m_name
 	void AddStation(int index, char * name);	// write in the array a station with a given name at a given index
-	std::string GetName(int index);					// returns the name of the station at given index
-	int GetIndex(char * name);					// returns the index of the station with given name
-	void Print(int n);							// print n first stations in the array with their index, all if n=0
+	std::string GetName(int index);			// returns the name of the station at given index
+	int GetIndex(char * name);			// returns the index of the station with given name
+	void Print(int n);				// print n first stations in the array with their index, all if n=0
 	~StationList();
 };
 
@@ -251,8 +251,8 @@ class Matrix
 {
 private:
 	Pair ** m_matrix;		// array of all stations' adjacencies
-	StationList m_stations;	// array of all Stations with their index and name
-	int m_size;				// Nb of stations in the array
+	StationList m_stations;		// array of all Stations with their index and name
+	int m_size;			// Nb of stations in the array
 
 public:
 	// Create a Matrix from a file
@@ -405,17 +405,17 @@ Matrix::Matrix(char * station_filename)
 		{
 			char* tmp = strdup(line);
 			char* FromStation_c = strdup(GetField(tmp, 1, " \t"));	// read the departure station
-			int FromStation = std::stoi(FromStation_c);				//converts the station index from char to int
+			int FromStation = std::stoi(FromStation_c);		//converts the station index from char to int
 			free(tmp);
 			
-			tmp = strdup(line);										// because tmp was destroyed by last getfield call
+			tmp = strdup(line);					// because tmp was destroyed by last getfield call
 			char* ToStation_c = strdup(GetField(tmp, 2, " \t"));	// read the arrival station
-			int ToStation = std::stoi(ToStation_c);					//converts the station index from char to int
+			int ToStation = std::stoi(ToStation_c);			//converts the station index from char to int
 			free(tmp); 
 			
-			tmp = strdup(line);										// because tmp was destroyed by last getfield call
-			char* Time_c = strdup(GetField(tmp, 3, " \t"));			// read the travel time
-			int time = std::stoi(Time_c);							//converts the travel time from char to int
+			tmp = strdup(line);					// because tmp was destroyed by last getfield call
+			char* Time_c = strdup(GetField(tmp, 3, " \t"));		// read the travel time
+			int time = std::stoi(Time_c);				//converts the travel time from char to int
 			free(tmp);
 
 			// We test if we change line based on time. We should not do it this way
@@ -519,19 +519,19 @@ void Matrix::dijkstra(int src, int dst, bool weight_type)
 	int i;
 	int count;
 
-	int *dist;				// The output array.  dist[i] will hold the shortest
-	dist = new int[m_size];	 // distance from src to i
+	int *dist;				// The output array.Â  dist[i] will hold the shortest
+	dist = new int[m_size];	 		// distance from src to i
 
 	bool *sptSet;				// sptSet[i] will true if vertex i is included in shortest
-	sptSet = new bool[m_size];	// path tree or shortest distance from src to i is finalized
+	sptSet = new bool[m_size];		// path tree or shortest distance from src to i is finalized
 
 	int *Parents;
-	Parents = new int[m_size];	// Store Parent of node (i.e. the previous node in the path) 
+	Parents = new int[m_size];		// Store Parent of node (i.e. the previous node in the path) 
 
 	int *ParentsRev;
-	ParentsRev = new int[m_size];	// Reverse order of Parents to print the best path
+	ParentsRev = new int[m_size];		// Reverse order of Parents to print the best path
 
-							// Initialize all distances as INFINITE and stpSet[] as false
+	// Initialize all distances as INFINITE and stpSet[] as false
 	for (i = 0; i < m_size; i++)
 		dist[i] = INF, sptSet[i] = false;
 
@@ -562,7 +562,7 @@ void Matrix::dijkstra(int src, int dst, bool weight_type)
 					weight_value = tmp->GetTime();		// weight is time 
 				adj = tmp->GetAdjacentVertex();
 				// Update dist[adj] only if is not in sptSet, there is an edge from 
-				// u to adj, and total weight of path from src to  adj through u is 
+				// u to adj, and total weight of path from src toÂ  adj through u is 
 				// smaller than current value of dist[adj]
 				if (!sptSet[adj] && dist[u] != INF
 					&& dist[u] + weight_value < dist[adj])
@@ -571,7 +571,7 @@ void Matrix::dijkstra(int src, int dst, bool weight_type)
 					Parents[adj] = u;
 				}
 					
-				if (adj == dst) break;				// We found the destination and we can stop here.
+				if (adj == dst) break;		// We found the destination and we can stop here.
 				tmp = tmp->GetNext();
 			}
 		if (adj == dst) break;				// We found the destination and we can stop here.
